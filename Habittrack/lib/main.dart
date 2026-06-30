@@ -33,9 +33,6 @@ class HabitTrackApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/create': (context) => const CreateHabitScreen(),
-        '/stats': (context) => const StatisticsScreen(),
       },
     );
   }
