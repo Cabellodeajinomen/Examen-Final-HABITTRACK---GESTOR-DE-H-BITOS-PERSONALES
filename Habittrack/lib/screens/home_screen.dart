@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'create_habit_screen.dart';
 import 'statistics_screen.dart';
 import 'profile_screen.dart';
+import '../models/habit.dart';
+import '../data/habit_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +21,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  final List<Habit> _habits = HabitData.habits;
+
+  int get _completedHabits => _habits.where((h) => h.isCompleted).length;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Mis Habitos'),
         centerTitle: true,
-        // Avatar del usuario en el AppBar
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 12),
@@ -36,60 +40,67 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
+      body: Column(
         children: [
-          // Tarjeta de resumen de hoy
-          const Card(
-            elevation: 4,
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text(
-                    'Resumen de Hoy',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Resumen de Hoy',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    '2 de 3 habitos completados',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    Text(
+                      '$_completedHabits de ${_habits.length} habitos completados',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          
-          const SizedBox(height: 20),
-          const Text(
-            'Tus Actividades',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Tus Actividades',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
           const SizedBox(height: 10),
-
-          // Lista de hábitos con tarjetas mejoradas
-          _buildHabitCard('Leer 30 minutos', 'Habito diario', Icons.menu_book, true),
-          _buildHabitCard('Hacer ejercicio', 'Salud física', Icons.fitness_center, true),
-          _buildHabitCard('Tomar agua', 'Hidratación', Icons.water_drop, false),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: _habits.length,
+              itemBuilder: (context, index) {
+                final habit = _habits[index];
+                return _buildHabitCard(habit);
+              },
+            ),
+          ),
         ],
       ),
-      
-      // Botón flotante para añadir hábitos
       floatingActionButton: FloatingActionButton(
         heroTag: "add",
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (_) => const CreateHabitScreen()),
           );
+          setState(() {});
         },
         child: const Icon(Icons.add),
       ),
-
-      // Barra de navegación inferior
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -97,7 +108,12 @@ class _HomeScreenState extends State<HomeScreen> {
             _selectedIndex = index;
           });
           if (index == 1) {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const StatisticsScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => StatisticsScreen(habits: _habits),
+              ),
+            );
           } else if (index == 2) {
             Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen()));
           }
@@ -111,23 +127,37 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Widget auxiliar para construir las tarjetas de hábitos
-  Widget _buildHabitCard(String title, String subtitle, IconData icon, bool completed) {
+  Widget _buildHabitCard(Habit habit) {
     return Card(
       elevation: 3,
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: completed ? Colors.blue.shade100 : Colors.grey.shade200,
-          child: Icon(icon, color: completed ? Colors.blue : Colors.grey),
+          backgroundColor: habit.isCompleted ? Colors.blue.shade100 : Colors.grey.shade200,
+          child: Icon(
+            _getIconForHabit(habit.title),
+            color: habit.isCompleted ? Colors.blue : Colors.grey,
+          ),
         ),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(subtitle),
-        trailing: Icon(
-          completed ? Icons.check_circle : Icons.radio_button_unchecked,
-          color: completed ? Colors.green : Colors.grey,
+        title: Text(habit.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(habit.subtitle),
+        trailing: Checkbox(
+          value: habit.isCompleted,
+          onChanged: (value) {
+            setState(() {
+              habit.isCompleted = value ?? false;
+            });
+          },
+          activeColor: Colors.green,
         ),
       ),
     );
+  }
+
+  IconData _getIconForHabit(String title) {
+    if (title.toLowerCase().contains('leer')) return Icons.menu_book;
+    if (title.toLowerCase().contains('ejercicio')) return Icons.fitness_center;
+    if (title.toLowerCase().contains('agua')) return Icons.water_drop;
+    return Icons.task_alt;
   }
 }

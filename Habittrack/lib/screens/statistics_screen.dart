@@ -6,12 +6,19 @@
  */
 
 import 'package:flutter/material.dart';
+import '../models/habit.dart';
 
 class StatisticsScreen extends StatelessWidget {
-  const StatisticsScreen({super.key});
+  final List<Habit> habits;
+  
+  const StatisticsScreen({super.key, required this.habits});
 
   @override
   Widget build(BuildContext context) {
+    final totalHabits = habits.length;
+    final completedHabits = habits.where((h) => h.isCompleted).length;
+    final percentage = totalHabits > 0 ? (completedHabits / totalHabits * 100).toStringAsFixed(0) : '0';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Estadisticas'),
@@ -20,27 +27,27 @@ class StatisticsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Tarjeta que muestra el total de hábitos completados
-            const Card(
+            Card(
               child: ListTile(
-                title: Text('Habitos completados'),
-                trailing: Text('15', style: TextStyle(fontWeight: FontWeight.bold)),
+                title: const Text('Total de hábitos'),
+                trailing: Text('$totalHabits', style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
             ),
-
+            const SizedBox(height: 10),
+            Card(
+              child: ListTile(
+                title: const Text('Habitos completados'),
+                trailing: Text('$completedHabits', style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
             const SizedBox(height: 20),
-
-            // Tarjeta que muestra el porcentaje total de éxito
-            const Card(
+            Card(
               child: ListTile(
-                title: Text('Porcentaje de cumplimiento'),
-                trailing: Text('75%', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+                title: const Text('Porcentaje de cumplimiento'),
+                trailing: Text('$percentage%', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
               ),
             ),
-
             const SizedBox(height: 30),
-
-            // Contenedor para futuros gráficos detallados
             Container(
               height: 200,
               width: double.infinity,
