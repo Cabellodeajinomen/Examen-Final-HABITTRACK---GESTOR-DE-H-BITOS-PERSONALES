@@ -7,8 +7,46 @@
 
 import 'package:flutter/material.dart';
 
-class CreateHabitScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import '../models/habit.dart';
+import '../data/habit_data.dart';
+
+class CreateHabitScreen extends StatefulWidget {
   const CreateHabitScreen({super.key});
+
+  @override
+  State<CreateHabitScreen> createState() => _CreateHabitScreenState();
+}
+
+class _CreateHabitScreenState extends State<CreateHabitScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _subtitleController = TextEditingController();
+
+  void _saveHabit() {
+    final title = _titleController.text.trim();
+    final subtitle = _subtitleController.text.trim();
+
+    if (title.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('El nombre del hábito es obligatorio')),
+      );
+      return;
+    }
+
+    final newHabit = Habit(
+      id: DateTime.now().toString(),
+      title: title,
+      subtitle: subtitle.isEmpty ? 'Sin descripción' : subtitle,
+    );
+
+    HabitData.habits.add(newHabit);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Habito guardado satisfactoriamente')),
+    );
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,39 +58,27 @@ class CreateHabitScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Campo de entrada para el nombre del nuevo hábito
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
                 labelText: 'Nombre del habito',
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // Campo de entrada para detalles adicionales o notas
-            const TextField(
+            TextField(
+              controller: _subtitleController,
               maxLines: 3,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Descripcion',
                 border: OutlineInputBorder(),
               ),
             ),
-
             const SizedBox(height: 30),
-
-            // Botón para procesar el guardado del hábito
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // Muestra una notificación emergente confirmando el guardado
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Habito guardado satisfactoriamente'),
-                    ),
-                  );
-                },
+                onPressed: _saveHabit,
                 child: const Text('Guardar'),
               ),
             ),
