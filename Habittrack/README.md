@@ -1,96 +1,55 @@
-# HABITTRACK
+# HabitTrack - Gestor de Hábitos Personales
 
-## Aplicación móvil para la gestión y seguimiento de hábitos personales
+HabitTrack es una aplicación móvil moderna diseñada para ayudar a los usuarios a construir y mantener rutinas positivas a través del seguimiento diario de sus hábitos.
 
-### Autor
+![Logo de HabitTrack](https://img.icons8.com/color/96/000000/checked-user-male.png)
+
+## 👥 Integrantes
 * **Alex Rhoddo Pacheco**
-* **GitHub:** [Cabellodeajinomen](https://github.com/Cabellodeajinomen/Examen-Final-HABITTRACK---GESTOR-DE-H-BITOS-PERSONALES.git)
+* **GitHub:** [Cabellodeajinomen](https://github.com/Cabellodeajinomen)
+
+## 🎯 Objetivo
+El objetivo principal es proporcionar una herramienta intuitiva que fomente la disciplina personal. HabitTrack permite a los usuarios visualizar su progreso real, motivándolos a cumplir sus metas diarias mediante estadísticas precisas y una interfaz amigable.
+
+## 🚀 Funcionalidades Implementadas
+*   ✅ **Autenticación:** Pantalla de Login con validaciones de campos obligatorios.
+*   ✅ **Gestión Dinámica:** Lista de hábitos cargada desde un modelo de datos (ListView.builder).
+*   ✅ **Seguimiento Real:** Marcado de hábitos mediante Checkbox con actualización inmediata de la interfaz.
+*   ✅ **Creación de Hábitos:** Formulario para añadir nuevos hábitos a la lista en tiempo real.
+*   ✅ **Estadísticas Automáticas:** Cálculo dinámico de total de hábitos, completados y porcentaje de éxito.
+*   ✅ **Diseño Profesional:** Uso de Material 3, Google Fonts (Poppins) y una paleta de colores moderna.
+
+## 🛠️ Tecnologías
+*   **Flutter:** Framework para el desarrollo multiplataforma.
+*   **Dart:** Lenguaje de programación.
+*   **Material 3:** Sistema de diseño de Google para interfaces modernas.
+*   **Google Fonts:** Tipografía Poppins para una mejor legibilidad.
+*   **Git & GitHub:** Control de versiones.
+
+## 📸 Capturas de Pantalla
+*(Próximamente se añadirán capturas de la aplicación)*
+| Login | Home | Estadísticas |
+| :---: | :---: | :---: |
+| ![Login](https://via.placeholder.com/150) | ![Home](https://via.placeholder.com/150) | ![Stats](https://via.placeholder.com/150) |
+
+## ⚙️ Cómo Ejecutar
+1. **Requisitos:** Tener instalado Flutter y un emulador/dispositivo Android o iOS.
+2. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/Cabellodeajinomen/Examen-Final-HABITTRACK---GESTOR-DE-H-BITOS-PERSONALES.git
+   ```
+3. **Instalar dependencias:**
+   ```bash
+   cd Habittrack
+   flutter pub get
+   ```
+4. **Lanzar la aplicación:**
+   ```bash
+   flutter run
+   ```
+
+## 🔗 Repositorio
+Puedes encontrar el código fuente aquí: [GitHub Repository](https://github.com/Cabellodeajinomen/Examen-Final-HABITTRACK---GESTOR-DE-H-BITOS-PERSONALES.git)
 
 ---
-
-# 1. Introducción
-
-Actualmente muchas personas buscan mejorar aspectos de su vida personal mediante hábitos como estudiar diariamente, realizar actividad física, leer libros o mantener una alimentación saludable. Sin embargo, uno de los principales problemas es la falta de seguimiento y control sobre dichas actividades, lo que dificulta mantener la constancia y medir el progreso alcanzado.
-
-HabitTrack surge como una solución tecnológica que permitirá a los usuarios registrar y monitorear sus hábitos diarios desde un dispositivo móvil. La aplicación ofrecerá herramientas para gestionar hábitos, registrar su cumplimiento y visualizar estadísticas de progreso de manera sencilla e intuitiva.
-
----
-
-# 2. Objetivo de la Aplicación
-
-Desarrollar una aplicación móvil multiplataforma utilizando Flutter que permita a los usuarios crear, administrar y realizar seguimiento a sus hábitos diarios mediante el registro de actividades y la visualización de estadísticas de cumplimiento.
-
-La aplicación buscará fomentar la organización personal y la disciplina mediante herramientas que permitan al usuario conocer su avance y mantener un historial de sus actividades.
-
-Asimismo, la información será almacenada en la nube utilizando Firebase (próximamente), permitiendo la persistencia de datos y el acceso seguro desde diferentes dispositivos.
-
----
-
-# 3. Público Objetivo
-
-La aplicación está dirigida a:
-
-* Estudiantes que desean mejorar sus hábitos de estudio.
-* Personas que realizan actividad física regularmente.
-* Usuarios que desean desarrollar hábitos saludables.
-* Personas interesadas en mejorar su productividad personal.
-
----
-
-# 4. Funcionalidades de la Aplicación
-
-## 4.1 Autenticación de Usuarios
-La aplicación permitirá que cada usuario tenga una cuenta personal para gestionar sus hábitos de manera independiente.
-* **Estado:** Interfaz de Login implementada y funcional.
-
-## 4.2 Gestión de Hábitos
-Permitirá administrar los hábitos que el usuario desea incorporar a su rutina diaria.
-* **Estado:** Interfaz de creación de hábitos implementada (Nombre y Descripción).
-
-## 4.3 Seguimiento Diario
-Permitirá registrar el cumplimiento de cada hábito diariamente.
-* **Estado:** Pantalla principal (Home) con lista visual de hábitos y estados de cumplimiento.
-
-## 4.4 Estadísticas y Reportes
-Permitirá visualizar información relacionada con el progreso del usuario.
-* **Estado:** Pantalla de estadísticas con indicadores de cumplimiento y estructura para gráficos detallados.
-
----
-
-# 5. Arquitectura General Propuesta
-
-La aplicación utiliza una estructura organizada para facilitar el mantenimiento:
-- `lib/main.dart`: Punto de entrada y configuración de tema (Material 3).
-- `lib/screens/`: Vistas principales (Login, Home, Create, Statistics).
-- `lib/widgets/`: Componentes reutilizables.
-- `lib/models/`: Modelos de datos.
-
----
-
-# 6. Tecnologías Utilizadas
-
-* **Flutter & Dart:** Framework y lenguaje principal.
-* **Material 3:** Diseño moderno y limpio.
-* **GitHub:** Control de versiones.
-* **Android Studio:** IDE de desarrollo.
-
----
-
-# 7. Cómo ejecutar el proyecto
-
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone https://github.com/Cabellodeajinomen/Examen-Final-HABITTRACK---GESTOR-DE-H-BITOS-PERSONALES.git
-    ```
-2.  **Navegar a la carpeta:**
-    ```bash
-    cd Habittrack
-    ```
-3.  **Obtener dependencias:**
-    ```bash
-    flutter pub get
-    ```
-4.  **Ejecutar:**
-    ```bash
-    flutter run
-    ```
+*Este proyecto es parte del Examen Final de HabitTrack.*
